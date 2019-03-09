@@ -1,0 +1,28 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Node.js application using MySql",
+  "main": "bamazonCustomer.js",
+  "dependencies": {
+    "columnify": "^1.5.4",
+    "eas-table": "^1.0.2",
+    "easy-table": "^1.1.1",
+    "inquirer": "^6.2.2",
+    "mysql": "^2.16.0",
+    "strpad": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ralracish/Bamazon.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ralracish/Bamazon.js/issues"
+  },
+  "homepage": "https://github.com/ralracish/Bamazon.js#readme"
+}

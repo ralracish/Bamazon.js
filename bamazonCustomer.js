@@ -1,6 +1,6 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 const inquirer = require("inquirer");
-const strpad = require("strpad");
+const Table=require("easy-table")
 
 
 // create the connection information for the sql database
@@ -14,13 +14,14 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "root123",
+    password: "root",
     database: "bamazon_DB"
 });
 
 // connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
+    console.log("connected as id " + connection.threadId);
     // run the start function after the connection is made to prompt the user
     display();
 });
@@ -28,11 +29,20 @@ connection.connect(function (err) {
 function display() {
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        for (var i = 0; i < res.length; i++) {
-            console.log("Item id: " + res[i].item_id + " | Product: " + res[i].product_name +
-                " | Department: " + res[i].department_name + " | Price: " + res[i].price + " | Quantity: " + res[i].stock_quantity);
-            console.log("------------------------------------------------------------------------------------------------------");
-        }
+        console.log("connected")
+        //Products displayed using easy-table npm
+        var t = new Table
+
+        res.forEach(function(product) {
+            t.cell('Product Id', product.item_id)
+            t.cell('Description', product.product_name)
+            t.cell('Department Name, USD', product.department_name)
+            t.cell('Price', product.price.toFixed(2))
+            t.cell('Stock Quantity', product.stock_quantity)
+            t.newRow()
+
+        })
+        console.log(t.toString())
         purchase()
     });
 }
@@ -63,9 +73,7 @@ function purchase() {
             //compare purchased quantity with stock_quantity
             connection.query("SELECT * FROM products WHERE ?", { item_id: answer.item },
                 function (err, data) {
-                    // console.log(data[0])
-
-
+            
                     if (data[0].stock_quantity < answer.quantity) {
                         console.log("Insufficient quantity!");
                     }
@@ -86,7 +94,8 @@ function purchase() {
                                 if (err) {
                                     throw err
                                 } else {
-                                    console.log("Your total is: ", totalFixed)
+                                    console.log("Your total is: $", totalFixed)
+                                    console.log("Stock quantity has been updated.")
                                 }
                             }
                         )
