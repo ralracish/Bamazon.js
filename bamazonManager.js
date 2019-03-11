@@ -81,7 +81,7 @@ function viewProducts() {
 }
 
 function lowInventory(){
-    connection.query("SELECT * FROM products", function (err, res) {
+    connection.query("SELECT * FROM products WHERE stock_quantity <= '10'", function (err, res) {
         if (err) throw err;
         console.log("connected")
         if (data[0].stock_quantity < 10){
@@ -117,9 +117,9 @@ function addInventory(){
         }
         ])
         .then (function(add){
-            connection.query("UPDATE products SET ? WHERE ?", [}function (err, res) {
+            connection.query("UPDATE products SET item_id WHERE stock_quantity", [function (err, res) {
                 if (err) throw err;
-                , [{
+                [{
 
                     stock_quantity: add.quantity
                 }, {
